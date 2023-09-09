@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://decrd4rafj6pi"]
+
+[ext_resource type="Script" path="res://Player/echo.gd" id="1_hwjrr"]
+
+[node name="Echo" type="Timer"]
+script = ExtResource("1_hwjrr")

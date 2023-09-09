@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://b686337bd3bsw"]
+
+[ext_resource type="Script" path="res://Enemies/enemy.gd" id="1_owv0c"]
+[ext_resource type="Texture2D" uid="uid://c87ipxw41la2j" path="res://Enemies/Enemy.png" id="2_ckyjw"]
+
+[node name="Enemy" type="CharacterBody2D"]
+script = ExtResource("1_owv0c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+disabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-47, -4)
+texture = ExtResource("2_ckyjw")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://chwuhhjj5fsvp"]
+
+[ext_resource type="Script" path="res://Player/Player.gd" id="1_rjlsa"]
+[ext_resource type="Texture2D" uid="uid://b3ynxhrehxuce" path="res://icon.svg" id="2_t2xbc"]
+[ext_resource type="PackedScene" uid="uid://decrd4rafj6pi" path="res://Player/echo.tscn" id="3_qeeqm"]
+
+[node name="Player" type="CharacterBody2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_rjlsa")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_t2xbc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="Echo" parent="." instance=ExtResource("3_qeeqm")]
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Echo" to="." method="_on_echo_timeout"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
