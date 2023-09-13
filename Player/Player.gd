@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-
+@export var SPRITE: String = "female"
 @export var SPEED: float = 400.0
 @export var ACC: float = 80.0
 @export var FRICTION: float = 40.0
@@ -17,9 +17,6 @@ var dash_direction: Vector2 = Vector2.ZERO
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
-	
-
 
 func _physics_process(delta):
 	var direction = Vector2.ZERO
@@ -42,7 +39,9 @@ func _physics_process(delta):
 	
 		
 	print(velocity)
-
+	
+	animator(SPRITE)
+	
 	move_and_slide()
 	
 	
@@ -68,7 +67,41 @@ func dash():
 	else:	
 		velocity.x = move_toward(velocity.x, 0, FRICTION * 3)
 		velocity.y = move_toward(velocity.y, 0, FRICTION * 3)
+		
 
+func animator(player_type):
+	if player_type == "female":
+		$baby_sprite.visible   = false
+		$mom_sprite.visible    = false
+		$female_sprite.visible = true
+		if velocity.y < 0:
+			$female_sprite.play('up')
+		elif velocity.y > 0 and velocity.x >= 0:
+			$female_sprite.play('down')
+		elif velocity.x < 0:
+			$female_sprite.play('back')
+		else:
+			$female_sprite.play('idle')
+	
+	if player_type == "mom":
+		$baby_sprite.visible   = false
+		$mom_sprite.visible    = true
+		$female_sprite.visible = false
+		if velocity.y < 0:
+			$mom_sprite.play('up')
+		elif velocity.y > 0 and velocity.x >= 0:
+			$mom_sprite.play('down')
+		elif velocity.x < 0:
+			$mom_sprite.play('back')
+		else:
+			$mom_sprite.play('idle')
+	
+	if player_type == "baby":
+		$baby_sprite.visible   = true
+		$mom_sprite.visible    = false
+		$female_sprite.visible = false
+		
+		$baby_sprite.play("default")
 
 func _on_echo_timeout():
 	if(velocity != Vector2.ZERO):
