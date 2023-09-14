@@ -22,6 +22,12 @@ window/size/viewport_height=768
 window/size/mode=2
 window/stretch/mode="viewport"
 
+[editor]
+
+movie_writer/movie_file="D:/DinoJam/dinojam3/test.avi"
+version_control/plugin_name="GitPlugin"
+version_control/autoload_on_startup=true
+
 [input]
 
 ui_left={
@@ -53,7 +59,20 @@ ui_down={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="World"
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Enemy"
+2d_physics/layer_4="Star"
+2d_physics/layer_5="Damage"
+2d_physics/layer_6="Baby"
+2d_physics/layer_7="Female"
+2d_physics/layer_8="EnemyHurtBox"
+2d_physics/layer_9="PlayerHurtBox"
+
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
