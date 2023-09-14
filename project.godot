@@ -59,6 +59,18 @@ ui_down={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="World"
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Enemy"
+2d_physics/layer_4="Star"
+2d_physics/layer_5="Damage"
+2d_physics/layer_6="Baby"
+2d_physics/layer_7="Female"
+2d_physics/layer_8="EnemyHurtBox"
+2d_physics/layer_9="PlayerHurtBox"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

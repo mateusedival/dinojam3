@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://ybpci7qbjtim"]
+
+[ext_resource type="Script" path="res://Overlaps/hurt_box.gd" id="1_xeauf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_utofv"]
+radius = 70.2567
+
+[node name="HurtBox" type="Area2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_xeauf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(16, 114)
+shape = SubResource("CircleShape2D_utofv")
+debug_color = Color(100, 0, 0.37, 0.51)
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="invincibility_ended" from="." to="." method="_on_invincibility_ended"]
+[connection signal="invincibility_started" from="." to="." method="_on_invincibility_started"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

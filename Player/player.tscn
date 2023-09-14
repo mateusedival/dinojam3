@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=3 uid="uid://chwuhhjj5fsvp"]
+[gd_scene load_steps=80 format=3 uid="uid://chwuhhjj5fsvp"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_rjlsa"]
 [ext_resource type="Texture2D" uid="uid://b3ynxhrehxuce" path="res://icon.svg" id="2_t2xbc"]
@@ -73,6 +73,8 @@
 [ext_resource type="Texture2D" uid="uid://vrhc0dyy7m2y" path="res://assets/Frames_1/MOM/Flying Cycle/13.png" id="71_osipu"]
 [ext_resource type="Texture2D" uid="uid://j5d01ggbqeds" path="res://assets/Frames_1/MOM/Flying Cycle/14.png" id="72_rw887"]
 [ext_resource type="Texture2D" uid="uid://bitao485ag5ca" path="res://assets/Frames_1/MOM/Flying Cycle/15.png" id="73_xd8wu"]
+[ext_resource type="PackedScene" uid="uid://6nn80faie5lk" path="res://Player/player_stats.tscn" id="74_cqlkw"]
+[ext_resource type="PackedScene" uid="uid://ybpci7qbjtim" path="res://Overlaps/hurt_box.tscn" id="75_x1vbb"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_uuup3"]
 animations = [{
@@ -438,16 +440,18 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ranfn"]
+radius = 68.469
+
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(0.5, 0.5)
+collision_layer = 2
+collision_mask = 9
 script = ExtResource("1_rjlsa")
-SPRITE = "mom"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
 texture = ExtResource("2_t2xbc")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
 [node name="Echo" parent="." instance=ExtResource("3_qeeqm")]
 
@@ -471,5 +475,18 @@ scale = Vector2(0.267, 0.267)
 sprite_frames = SubResource("SpriteFrames_0j4bd")
 animation = &"up"
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(16, 114)
+shape = SubResource("CircleShape2D_ranfn")
+
+[node name="PlayerStats" parent="." instance=ExtResource("74_cqlkw")]
+max_health = 5
+
+[node name="HurtBox" parent="." instance=ExtResource("75_x1vbb")]
+collision_layer = 256
+collision_mask = 4
+
 [connection signal="timeout" from="Echo" to="." method="_on_echo_timeout"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="no_health" from="PlayerStats" to="." method="_on_player_stats_no_health"]
+[connection signal="body_entered" from="HurtBox" to="." method="_on_hurt_box_body_entered"]

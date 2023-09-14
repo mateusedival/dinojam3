@@ -1,9 +1,11 @@
 extends CharacterBody2D
 
-@export var SPRITE: String = "female"
+@export var SPRITE: String = "baby"
 @export var SPEED: float = 400.0
 @export var ACC: float = 80.0
 @export var FRICTION: float = 40.0
+
+@export var IFRAMES: float = 10
 
 @onready var DASH_SPEED: float = SPEED * 3
 
@@ -38,7 +40,7 @@ func _physics_process(delta):
 			dash()
 	
 		
-	print(velocity)
+	#print(velocity)
 	
 	animator(SPRITE)
 	
@@ -102,6 +104,9 @@ func animator(player_type):
 		$female_sprite.visible = false
 		
 		$baby_sprite.play("default")
+		
+func fucking_dies():
+	queue_free()
 
 func _on_echo_timeout():
 	if(velocity != Vector2.ZERO):
@@ -111,3 +116,13 @@ func _on_timer_timeout():
 	is_dashing = false
 	STATE = 'MOVE'
 	$Echo.toggle(false,0)
+
+
+func _on_player_stats_no_health():
+	fucking_dies()
+
+
+func _on_hurt_box_body_entered(body):
+	$PlayerStats.health -= 1
+	$HurtBox.start_invincibility(IFRAMES)
+	print($PlayerStats.health)
