@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=3 uid="uid://chwuhhjj5fsvp"]
+[gd_scene load_steps=81 format=3 uid="uid://chwuhhjj5fsvp"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_rjlsa"]
 [ext_resource type="Texture2D" uid="uid://b3ynxhrehxuce" path="res://icon.svg" id="2_t2xbc"]
@@ -443,6 +443,9 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_ranfn"]
 radius = 68.469
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gwyit"]
+size = Vector2(91, 276)
+
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(0.5, 0.5)
 collision_layer = 2
@@ -454,9 +457,6 @@ visible = false
 texture = ExtResource("2_t2xbc")
 
 [node name="Echo" parent="." instance=ExtResource("3_qeeqm")]
-
-[node name="Timer" type="Timer" parent="."]
-one_shot = true
 
 [node name="baby_sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(-20, 4)
@@ -486,7 +486,30 @@ max_health = 5
 collision_layer = 256
 collision_mask = 4
 
+[node name="DamageBox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageBox"]
+position = Vector2(226.5, 76)
+shape = SubResource("RectangleShape2D_gwyit")
+
+[node name="DashTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ParryTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="DashCooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="ParryCooldown" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="timeout" from="Echo" to="." method="_on_echo_timeout"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="no_health" from="PlayerStats" to="." method="_on_player_stats_no_health"]
 [connection signal="body_entered" from="HurtBox" to="." method="_on_hurt_box_body_entered"]
+[connection signal="timeout" from="DashTimer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="ParryTimer" to="." method="_on_parry_timer_timeout"]
+[connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]
+[connection signal="timeout" from="ParryCooldown" to="." method="_on_parry_cooldown_timeout"]
