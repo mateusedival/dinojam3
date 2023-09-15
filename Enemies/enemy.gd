@@ -23,3 +23,7 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 
 func _on_hurtbox_body_entered(body):
 	funcking_dies()
+
+
+func _on_hurtbox_area_entered(area):
+	funcking_dies()

@@ -5,20 +5,27 @@ extends CharacterBody2D
 @export var ACC: float = 80.0
 @export var FRICTION: float = 40.0
 
-@export var IFRAMES: float = 10
+@export var IFRAMES: float = 1
 
-@onready var DASH_SPEED: float = SPEED * 3
+@onready var DASH_SPEED: float = SPEED * 2.3
+@export var DASH_TIMER: float = 0.2
+@export var DASH_COOLDOWN: float = 2
 
-@onready var STATE = 'MOVE'
+@export var PARRY_TIMER: float = 0.1
+@export var PARRY_COOLDOWN: float = 0.5
 
-var is_dashing = true
+@onready var STATE: States = States.MOVE
+
+enum States {MOVE,DASH,PARRY}
+
+var is_dashing = false
+var is_parrying = false
 
 var dash_direction: Vector2 = Vector2.ZERO
 
 
-
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+func _ready():
+	$DamageBox/CollisionShape2D.disabled = true
 
 func _physics_process(delta):
 	var direction = Vector2.ZERO
@@ -30,14 +37,18 @@ func _physics_process(delta):
 	
 	direction.normalized()
 	
-	if (Input.is_action_just_pressed("ui_accept")):
+	if (Input.is_action_just_pressed("dash")) and !is_dashing:
 		start_dash(direction, delta)
-	
+	elif (Input.is_action_just_pressed("parry")) and !is_parrying:
+		STATE = States.PARRY
+
 	match STATE:
-		'MOVE':
+		States.MOVE:
 			move(direction)
-		'DASH': 
+		States.DASH: 
 			dash()
+		States.PARRY:
+			parry()
 	
 		
 	#print(velocity)
@@ -58,9 +69,10 @@ func move(direction: Vector2):
 func start_dash(direction, delta):
 	dash_direction = direction
 	is_dashing = true
-	STATE = 'DASH'
+	STATE = States.DASH
 	$Echo.toggle(true,delta * 2)
-	$Timer.start(0.2)
+	$DashTimer.start(DASH_TIMER)
+	$HurtBox.start_invincibility(DASH_TIMER + 0.1)
 
 func dash():
 	if dash_direction:
@@ -70,6 +82,12 @@ func dash():
 		velocity.x = move_toward(velocity.x, 0, FRICTION * 3)
 		velocity.y = move_toward(velocity.y, 0, FRICTION * 3)
 		
+func parry():
+	if !is_parrying:
+		$DamageBox/CollisionShape2D.disabled = false
+		is_parrying = true
+		$ParryTimer.start(PARRY_TIMER)
+
 
 func animator(player_type):
 	if player_type == "female":
@@ -113,9 +131,11 @@ func _on_echo_timeout():
 		$Echo.create_echo($Sprite2D.texture, global_position,self.scale)
 
 func _on_timer_timeout():
-	is_dashing = false
-	STATE = 'MOVE'
+	$DashCooldown.start(DASH_COOLDOWN)
+	STATE = States.MOVE
 	$Echo.toggle(false,0)
+	
+	
 
 
 func _on_player_stats_no_health():
@@ -126,3 +146,17 @@ func _on_hurt_box_body_entered(body):
 	$PlayerStats.health -= 1
 	$HurtBox.start_invincibility(IFRAMES)
 	print($PlayerStats.health)
+
+
+func _on_parry_timer_timeout():
+	STATE = States.MOVE
+	$DamageBox/CollisionShape2D.disabled = true
+	$ParryCooldown.start(PARRY_COOLDOWN)
+
+
+func _on_parry_cooldown_timeout():
+	is_parrying = false
+
+
+func _on_dash_cooldown_timeout():
+	is_dashing = false
