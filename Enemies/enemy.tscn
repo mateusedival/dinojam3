@@ -1,13 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://b686337bd3bsw"]
+[gd_scene load_steps=5 format=3 uid="uid://b686337bd3bsw"]
 
 [ext_resource type="Script" path="res://Enemies/enemy.gd" id="1_owv0c"]
 [ext_resource type="Texture2D" uid="uid://c87ipxw41la2j" path="res://Enemies/Enemy.png" id="2_ckyjw"]
 
-[node name="Enemy" type="CharacterBody2D"]
-script = ExtResource("1_owv0c")
+[sub_resource type="CircleShape2D" id="CircleShape2D_csmo7"]
+radius = 11.3817
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-disabled = true
+[sub_resource type="CircleShape2D" id="CircleShape2D_ky41u"]
+radius = 24.0208
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 256
+script = ExtResource("1_owv0c")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -16,4 +21,21 @@ texture = ExtResource("2_ckyjw")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(-31, 1)
+rotation = 3.14159
+scale = Vector2(2.08776, -2.13183)
+shape = SubResource("CircleShape2D_csmo7")
+debug_color = Color(100, 0.01, 0.01, 0.72)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-32, 0)
+shape = SubResource("CircleShape2D_ky41u")
+
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="body_entered" from="Hurtbox" to="." method="_on_hurtbox_body_entered"]

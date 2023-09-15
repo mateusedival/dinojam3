@@ -12,7 +12,7 @@ var is_jumping = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$Hitbox/CollisionShape2D.disabled = true
 
 
 func _physics_process(delta):
@@ -23,6 +23,7 @@ func _physics_process(delta):
 	move_and_slide()
 	
 func jump():
+	$Hitbox/CollisionShape2D.disabled = false
 	velocity.y = -JUMP_FORCE
 	is_jumping = true
 	
@@ -35,3 +36,11 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 
 func _on_timer_timeout():
 	jump()
+
+func funcking_dies():
+	Globals.score_updater(1)
+	queue_free()
+
+
+func _on_hitbox_body_entered(body):
+	funcking_dies()

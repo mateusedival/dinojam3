@@ -1,12 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://dv2dtla8o58ma"]
+[gd_scene load_steps=4 format=3 uid="uid://dv2dtla8o58ma"]
 
 [ext_resource type="Script" path="res://Stars/stars.gd" id="1_xd38h"]
 [ext_resource type="Texture2D" uid="uid://cotop6jwimtc7" path="res://Stars/lagarto.png" id="2_01k1a"]
 
-[node name="Stars" type="CharacterBody2D"]
-script = ExtResource("1_xd38h")
+[sub_resource type="CircleShape2D" id="CircleShape2D_olmko"]
+radius = 16.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Stars" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_xd38h")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0, 1, 0.0509804, 1)
@@ -18,5 +21,14 @@ texture = ExtResource("2_01k1a")
 one_shot = true
 autostart = true
 
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_olmko")
+
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
