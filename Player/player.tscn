@@ -76,6 +76,9 @@
 [ext_resource type="PackedScene" uid="uid://6nn80faie5lk" path="res://Player/player_stats.tscn" id="74_cqlkw"]
 [ext_resource type="PackedScene" uid="uid://ybpci7qbjtim" path="res://Overlaps/hurt_box.tscn" id="75_x1vbb"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gwyit"]
+size = Vector2(91, 276)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_uuup3"]
 animations = [{
 "frames": [{
@@ -440,14 +443,12 @@ animations = [{
 "speed": 8.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ranfn"]
-radius = 68.469
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_gwyit"]
-size = Vector2(91, 276)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4tl2h"]
+radius = 214.993
+height = 1153.85
 
 [node name="Player" type="CharacterBody2D"]
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.13, 0.13)
 collision_layer = 2
 collision_mask = 9
 script = ExtResource("1_rjlsa")
@@ -458,27 +459,6 @@ visible = false
 texture = ExtResource("2_t2xbc")
 
 [node name="Echo" parent="." instance=ExtResource("3_qeeqm")]
-
-[node name="baby_sprite" type="AnimatedSprite2D" parent="."]
-position = Vector2(-20, 4)
-scale = Vector2(0.267, 0.267)
-sprite_frames = SubResource("SpriteFrames_uuup3")
-frame_progress = 0.89062
-
-[node name="female_sprite" type="AnimatedSprite2D" parent="."]
-position = Vector2(2, 4)
-scale = Vector2(0.267, 0.267)
-sprite_frames = SubResource("SpriteFrames_sufqj")
-animation = &"back"
-
-[node name="mom_sprite" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.267, 0.267)
-sprite_frames = SubResource("SpriteFrames_0j4bd")
-animation = &"up"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(16, 114)
-shape = SubResource("CircleShape2D_ranfn")
 
 [node name="PlayerStats" parent="." instance=ExtResource("74_cqlkw")]
 max_health = 5
@@ -509,20 +489,30 @@ one_shot = true
 
 [node name="baby_sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(-20, 4)
-scale = Vector2(0.267, 0.267)
 sprite_frames = SubResource("SpriteFrames_uuup3")
 frame_progress = 0.89062
 
 [node name="female_sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(2, 4)
-scale = Vector2(0.267, 0.267)
 sprite_frames = SubResource("SpriteFrames_sufqj")
-animation = &"back"
+animation = &"dash"
 
 [node name="mom_sprite" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.267, 0.267)
 sprite_frames = SubResource("SpriteFrames_0j4bd")
-animation = &"up"
+animation = &"dash"
+
+[node name="mom_collision" type="CollisionShape2D" parent="."]
+position = Vector2(-76.9231, 69.2307)
+rotation = 1.58301
+shape = SubResource("CapsuleShape2D_4tl2h")
+
+[node name="baby_collision" type="CollisionShape2D" parent="."]
+scale = Vector2(7.69231, 7.69231)
+
+[node name="female_collision" type="CollisionShape2D" parent="."]
+scale = Vector2(7.69231, 7.69231)
+
+[node name="collisions" type="Node" parent="."]
 
 [connection signal="timeout" from="Echo" to="." method="_on_echo_timeout"]
 [connection signal="no_health" from="PlayerStats" to="." method="_on_player_stats_no_health"]
