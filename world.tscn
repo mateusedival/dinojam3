@@ -24,6 +24,7 @@ Indicator = ExtResource("4_m57pn")
 
 [node name="Player" parent="." instance=ExtResource("4_wvj30")]
 position = Vector2(288, 131)
+SPRITE = "baby"
 
 [node name="Mother" parent="." instance=ExtResource("7_42lmv")]
 state = 1

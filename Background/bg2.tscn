@@ -14,7 +14,7 @@ follow_viewport_enabled = true
 script = ExtResource("1_nay08")
 
 [node name="1" type="ParallaxLayer" parent="bg2"]
-texture_filter = 1
+texture_filter = 3
 motion_scale = Vector2(0, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="bg2/1"]
@@ -23,11 +23,10 @@ position = Vector2(1970, 382)
 texture = ExtResource("2_mh36h")
 
 [node name="2" type="ParallaxLayer" parent="bg2"]
-texture_filter = 1
 motion_mirroring = Vector2(2694, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="bg2/2"]
-texture_filter = 1
+texture_filter = 3
 texture_repeat = 2
 position = Vector2(1347, 404)
 texture = ExtResource("3_3marr")

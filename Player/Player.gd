@@ -62,7 +62,7 @@ func move(direction: Vector2):
 	if direction:
 		velocity.x = move_toward(velocity.x, direction.x * SPEED, ACC)
 		velocity.y = move_toward(velocity.y, direction.y * SPEED, ACC)
-	else:	
+	else:
 		velocity.x = move_toward(velocity.x, 0, FRICTION)
 		velocity.y = move_toward(velocity.y, 0, FRICTION)
 	
@@ -126,16 +126,27 @@ func animator(player_type):
 func fucking_dies():
 	queue_free()
 
+
 func _on_echo_timeout():
 	if(velocity != Vector2.ZERO):
-		$Echo.create_echo($Sprite2D.texture, global_position,self.scale)
+		if SPRITE == "mom":
+			var frame_idx = $mom_sprite.frame
+			var animation_name = $mom_sprite.animation
+			$Echo.create_echo($mom_sprite.sprite_frames.get_frame_texture(animation_name,frame_idx), global_position,self.scale)
+		elif SPRITE == "baby":
+			var frame_idx = $baby_sprite.frame
+			var animation_name = $baby_sprite.animation
+			$Echo.create_echo($baby_sprite.sprite_frames.get_frame_texture(animation_name,frame_idx), global_position,self.scale)
+		elif SPRITE == "female":
+			var frame_idx = $female_sprite.frame
+			var animation_name = $female_sprite.animation
+			$Echo.create_echo($female_sprite.sprite_frames.get_frame_texture(animation_name,frame_idx), global_position,self.scale)
+		
 
 func _on_timer_timeout():
 	$DashCooldown.start(DASH_COOLDOWN)
 	STATE = States.MOVE
 	$Echo.toggle(false,0)
-	
-	
 
 
 func _on_player_stats_no_health():
