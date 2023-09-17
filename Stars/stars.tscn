@@ -1,10 +1,48 @@
-[gd_scene load_steps=4 format=3 uid="uid://dv2dtla8o58ma"]
+[gd_scene load_steps=9 format=3 uid="uid://dv2dtla8o58ma"]
 
 [ext_resource type="Script" path="res://Stars/stars.gd" id="1_xd38h"]
 [ext_resource type="Texture2D" uid="uid://cotop6jwimtc7" path="res://Stars/lagarto.png" id="2_01k1a"]
+[ext_resource type="Texture2D" uid="uid://ddmbvf72nd8mw" path="res://assets/lagarto/1.png" id="3_75hn6"]
+[ext_resource type="Texture2D" uid="uid://dmc8srjuk3por" path="res://assets/lagarto/3.png" id="4_ukyqy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_olmko"]
 radius = 16.0
+
+[sub_resource type="Animation" id="Animation_4y2h5"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("walking:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(0.039, 0.039), Vector2(-0.039, 0.039), Vector2(0.039, 0.039), Vector2(-0.039, 0.039)]
+}
+
+[sub_resource type="Animation" id="Animation_1tw11"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("walking:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.039, 0.039)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xqrpx"]
+_data = {
+"RESET": SubResource("Animation_1tw11"),
+"idle": SubResource("Animation_4y2h5")
+}
 
 [node name="Stars" type="CharacterBody2D"]
 collision_layer = 0
@@ -12,6 +50,7 @@ collision_mask = 0
 script = ExtResource("1_xd38h")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 modulate = Color(0, 1, 0.0509804, 1)
 texture = ExtResource("2_01k1a")
 
@@ -28,6 +67,24 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(0, -6)
 shape = SubResource("CircleShape2D_olmko")
+
+[node name="walking" type="Sprite2D" parent="."]
+position = Vector2(2, 3.8147e-06)
+scale = Vector2(0.039, 0.039)
+texture = ExtResource("3_75hn6")
+region_enabled = true
+region_rect = Rect2(100, 380, 1180, 2630)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "idle"
+libraries = {
+"": SubResource("AnimationLibrary_xqrpx")
+}
+
+[node name="jumping" type="Sprite2D" parent="."]
+position = Vector2(-54, 7)
+scale = Vector2(0.0378461, 0.0368333)
+texture = ExtResource("4_ukyqy")
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
