@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://dnqu2sfkjv2qx"]
+
+[ext_resource type="Script" path="res://UI/Hud.gd" id="1_mxpai"]
+
+[node name="Hud" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mxpai")
+
+[node name="Score" type="TextEdit" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.97
+anchor_right = 1.0
+anchor_bottom = 0.059
+offset_left = -0.0200195
+offset_bottom = -0.312004
+grow_horizontal = 0
+placeholder_text = "00"
