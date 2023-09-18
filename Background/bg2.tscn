@@ -1,11 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dd12suab5g3in"]
+[gd_scene load_steps=6 format=3 uid="uid://dd12suab5g3in"]
 
 [ext_resource type="Script" path="res://bg2.gd" id="1_nay08"]
 [ext_resource type="Texture2D" uid="uid://u3qedwp6d6mw" path="res://assets/BgRedim/bg2/1.png" id="2_mh36h"]
-[ext_resource type="Texture2D" uid="uid://ppvg2xpuu1l0" path="res://assets/BgRedim/bg2/2.png" id="3_3marr"]
-[ext_resource type="Texture2D" uid="uid://4vt8bra17skq" path="res://assets/BgRedim/bg2/4.png" id="5_qkmct"]
+[ext_resource type="Texture2D" uid="uid://c4dc5ocpjs4rc" path="res://assets/BgRedim/bg2/bg2.1.png" id="3_uimnd"]
+[ext_resource type="Texture2D" uid="uid://mr3pepkib7ah" path="res://assets/BgRedim/bg2/bg2.png" id="4_ojt46"]
 [ext_resource type="Texture2D" uid="uid://d04x5xraxecoh" path="res://assets/BgRedim/bg2/5.png" id="6_7kpvm"]
-[ext_resource type="Texture2D" uid="uid://b135y1ytcw1qf" path="res://assets/BgRedim/posição do loop.png" id="11_q2ihf"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -15,48 +14,47 @@ script = ExtResource("1_nay08")
 
 [node name="1" type="ParallaxLayer" parent="bg2"]
 texture_filter = 3
-motion_scale = Vector2(0, 0)
+position = Vector2(1, 0)
+motion_mirroring = Vector2(2694, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="bg2/1"]
 texture_filter = 1
-position = Vector2(1970, 382)
 texture = ExtResource("2_mh36h")
+centered = false
 
 [node name="2" type="ParallaxLayer" parent="bg2"]
-motion_mirroring = Vector2(2694, 0)
+motion_mirroring = Vector2(2700, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="bg2/2"]
-texture_filter = 3
 texture_repeat = 2
-position = Vector2(1347, 404)
-texture = ExtResource("3_3marr")
+texture = ExtResource("3_uimnd")
+centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 2694, 790)
+region_rect = Rect2(0, 0, 2700, 790)
 
 [node name="4" type="ParallaxLayer" parent="bg2"]
 texture_filter = 1
+motion_scale = Vector2(5, 5)
 motion_mirroring = Vector2(2694, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="bg2/4"]
 texture_filter = 1
 texture_repeat = 2
-position = Vector2(1347, 404)
-texture = ExtResource("5_qkmct")
+texture = ExtResource("4_ojt46")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 2694, 790)
 
 [node name="5" type="ParallaxLayer" parent="bg2"]
+visible = false
 texture_filter = 1
+motion_scale = Vector2(15, 15)
 motion_mirroring = Vector2(2694, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="bg2/5"]
 texture_filter = 1
 texture_repeat = 2
-position = Vector2(1347, 404)
 texture = ExtResource("6_7kpvm")
+centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 2694, 790)
-
-[node name="MARCADOR" type="Sprite2D" parent="."]
-position = Vector2(2000, 1187)
-texture = ExtResource("11_q2ihf")

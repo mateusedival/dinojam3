@@ -13,12 +13,15 @@ var is_jumping = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Hitbox/CollisionShape2D.disabled = true
+	$jumping.visible = false
 
 
 func _physics_process(delta):
 	if is_jumping:
 		velocity.x = move_toward(velocity.x, -SPEED , ACC * delta)
 		velocity.y += GRAVITY * delta
+		$walking.visible = false
+		$jumping.visible = true
 
 	move_and_slide()
 	

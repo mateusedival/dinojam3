@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cilsi3a5e738s"]
+[gd_scene load_steps=9 format=3 uid="uid://cilsi3a5e738s"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_5l8pu"]
 [ext_resource type="PackedScene" uid="uid://c5512bjpwjm42" path="res://Enemies/enemy_spawner.tscn" id="2_gyjf3"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://ch8xh7c703kcq" path="res://Indicators/indicators.tscn" id="4_m57pn"]
 [ext_resource type="PackedScene" uid="uid://chwuhhjj5fsvp" path="res://Player/player.tscn" id="4_wvj30"]
 [ext_resource type="PackedScene" uid="uid://dkwjxsir8ep7u" path="res://NPCs/Mother/mother.tscn" id="7_42lmv"]
+[ext_resource type="PackedScene" uid="uid://dbeglxphj6xji" path="res://Background/bg1.tscn" id="8_fky7r"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_5l8pu")
@@ -26,3 +27,5 @@ Indicator = ExtResource("4_m57pn")
 position = Vector2(288, 131)
 
 [node name="Mother" parent="." instance=ExtResource("7_42lmv")]
+
+[node name="Node2D" parent="." instance=ExtResource("8_fky7r")]
