@@ -10,7 +10,8 @@ extends Node2D
 var spawns: Array = []
 
 @export var spawn_rate: float = 2.0
-@onready var max_enemies = qnt_spawns - 1 
+@onready var max_enemies: int = qnt_spawns - 1 
+@export var min_enemies: int = 1
 
 @export var enemy_y_variance: float = 60.0
 @export var enemy_x_variance: float = 0.0
@@ -21,6 +22,7 @@ var spawns: Array = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Timer.start(spawn_rate)
+	
 	
 	
 	var chunk_size = int(length/qnt_spawns)
@@ -47,10 +49,11 @@ func spawn_enemy(pos: Vector2):
 	#TODO: clip the value so it no goes beyond screen
 	new_enemy.position += Vector2(x_variance,y_variance)
 	
-	get_tree().root.add_child.call_deferred(new_enemy)
+	add_child.call_deferred(new_enemy)
 
 func spawn():
-	var n = randi_range(1, max_enemies)
+	var min_enemies_local = clamp(min_enemies,0,max_enemies)
+	var n = randi_range(min_enemies_local, max_enemies)
 	
 	var spawns_idx = range(qnt_spawns)
 	spawns_idx.shuffle()

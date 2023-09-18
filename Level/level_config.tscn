@@ -1,29 +1,43 @@
-[gd_scene load_steps=8 format=3 uid="uid://cdsuvb4xptx3"]
+[gd_scene load_steps=10 format=3 uid="uid://cdsuvb4xptx3"]
 
 [ext_resource type="Script" path="res://Level/level_config.gd" id="1_n84ym"]
 [ext_resource type="PackedScene" uid="uid://c5512bjpwjm42" path="res://Enemies/enemy_spawner.tscn" id="2_7hf2v"]
+[ext_resource type="PackedScene" uid="uid://bbbyyidx8omoi" path="res://UI/fade_in.tscn" id="2_idoe0"]
 [ext_resource type="PackedScene" uid="uid://qh5eajm4d8kn" path="res://Stars/star_spawner.tscn" id="3_edk73"]
-[ext_resource type="PackedScene" uid="uid://dv2dtla8o58ma" path="res://Stars/stars.tscn" id="4_a2t6x"]
-[ext_resource type="PackedScene" uid="uid://ch8xh7c703kcq" path="res://Indicators/indicators.tscn" id="5_n6cuq"]
 [ext_resource type="PackedScene" uid="uid://dnqu2sfkjv2qx" path="res://UI/Hud.tscn" id="6_0hi63"]
 [ext_resource type="PackedScene" uid="uid://chwuhhjj5fsvp" path="res://Player/player.tscn" id="7_50adv"]
+[ext_resource type="PackedScene" uid="uid://dbeglxphj6xji" path="res://Background/bg1.tscn" id="9_f25it"]
+[ext_resource type="PackedScene" uid="uid://cf841mkjyhp8p" path="res://walls.tscn" id="9_v17vh"]
+[ext_resource type="PackedScene" uid="uid://dkwjxsir8ep7u" path="res://NPCs/Mother/mother.tscn" id="10_4go2c"]
 
 [node name="LevelConfig" type="Node"]
 script = ExtResource("1_n84ym")
+LEVEL_TIMER = 30.0
+next_scene = "res://Menu/end_credits.tscn"
+
+[node name="Walls" parent="." instance=ExtResource("9_v17vh")]
+
+[node name="FadeIn" parent="." instance=ExtResource("2_idoe0")]
+
+[node name="Hud" parent="." instance=ExtResource("6_0hi63")]
+
+[node name="Bg1" parent="." instance=ExtResource("9_f25it")]
 
 [node name="LevelTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="EnemySpawner" parent="." instance=ExtResource("2_7hf2v")]
 position = Vector2(1366, 0)
+qnt_spawns = 5
 pos_final = 768
 
 [node name="StarSpawner" parent="." instance=ExtResource("3_edk73")]
 position = Vector2(1366, 768)
-Star = ExtResource("4_a2t6x")
-Indicator = ExtResource("5_n6cuq")
 
-[node name="Hud" parent="." instance=ExtResource("6_0hi63")]
+[node name="Mother" parent="." instance=ExtResource("10_4go2c")]
 
 [node name="Player" parent="." instance=ExtResource("7_50adv")]
+position = Vector2(388, 352)
+is_parrying = true
 
 [connection signal="timeout" from="LevelTimer" to="." method="_on_level_timer_timeout"]

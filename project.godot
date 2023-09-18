@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="DINOJAM3"
-run/main_scene="res://world.tscn"
+run/main_scene="res://Level/level_config.tscn"
 config/features=PackedStringArray("4.0", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Globals="*res://Globals.gd"
+PlayerStats="*res://Player/player_stats.tscn"
 
 [display]
 

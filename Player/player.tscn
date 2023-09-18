@@ -1,10 +1,11 @@
-[gd_scene load_steps=81 format=3 uid="uid://chwuhhjj5fsvp"]
+[gd_scene load_steps=87 format=3 uid="uid://chwuhhjj5fsvp"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_rjlsa"]
 [ext_resource type="Texture2D" uid="uid://b3ynxhrehxuce" path="res://icon.svg" id="2_t2xbc"]
 [ext_resource type="PackedScene" uid="uid://decrd4rafj6pi" path="res://Player/echo.tscn" id="3_qeeqm"]
 [ext_resource type="Texture2D" uid="uid://b1qh1u2uf5rx7" path="res://assets/baby/1.png" id="4_sf25x"]
 [ext_resource type="Texture2D" uid="uid://gov5404vawpq" path="res://assets/baby/2.png" id="5_fph45"]
+[ext_resource type="Shader" path="res://Player/blink.gdshader" id="5_tgfco"]
 [ext_resource type="Texture2D" uid="uid://bahyqdnykjxe6" path="res://assets/baby/3.png" id="6_k23sg"]
 [ext_resource type="Texture2D" uid="uid://cpc46njeff4cx" path="res://assets/baby/4.png" id="7_5f02m"]
 [ext_resource type="Texture2D" uid="uid://dh36v6rsofrhn" path="res://assets/Frams_2/UP - FEMALE/1.png" id="8_3psax"]
@@ -73,11 +74,14 @@
 [ext_resource type="Texture2D" uid="uid://vrhc0dyy7m2y" path="res://assets/Frames_1/MOM/Flying Cycle/13.png" id="71_osipu"]
 [ext_resource type="Texture2D" uid="uid://j5d01ggbqeds" path="res://assets/Frames_1/MOM/Flying Cycle/14.png" id="72_rw887"]
 [ext_resource type="Texture2D" uid="uid://bitao485ag5ca" path="res://assets/Frames_1/MOM/Flying Cycle/15.png" id="73_xd8wu"]
-[ext_resource type="PackedScene" uid="uid://6nn80faie5lk" path="res://Player/player_stats.tscn" id="74_cqlkw"]
 [ext_resource type="PackedScene" uid="uid://ybpci7qbjtim" path="res://Overlaps/hurt_box.tscn" id="75_x1vbb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gwyit"]
-size = Vector2(91, 276)
+size = Vector2(145.5, 922.615)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wmold"]
+shader = ExtResource("5_tgfco")
+shader_parameter/active = false
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_uuup3"]
 animations = [{
@@ -98,6 +102,44 @@ animations = [{
 "name": &"default",
 "speed": 8.0
 }]
+
+[sub_resource type="Animation" id="Animation_mafn1"]
+resource_name = "blink"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, false, true, false]
+}
+
+[sub_resource type="Animation" id="Animation_byd43"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_30lba"]
+_data = {
+"RESET": SubResource("Animation_byd43"),
+"blink": SubResource("Animation_mafn1")
+}
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_sufqj"]
 animations = [{
@@ -447,6 +489,13 @@ animations = [{
 radius = 214.993
 height = 1153.85
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_2cwcs"]
+radius = 208.261
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cnr26"]
+radius = 27.0
+height = 152.0
+
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(0.13, 0.13)
 collision_layer = 2
@@ -459,10 +508,9 @@ texture = ExtResource("2_t2xbc")
 
 [node name="Echo" parent="." instance=ExtResource("3_qeeqm")]
 
-[node name="PlayerStats" parent="." instance=ExtResource("74_cqlkw")]
-max_health = 5
-
 [node name="HurtBox" parent="." instance=ExtResource("75_x1vbb")]
+position = Vector2(-100, 176.923)
+scale = Vector2(3.04168, 2.87535)
 collision_layer = 256
 collision_mask = 4
 
@@ -471,7 +519,7 @@ collision_layer = 16
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageBox"]
-position = Vector2(226.5, 76)
+position = Vector2(1030.77, 76.9231)
 shape = SubResource("RectangleShape2D_gwyit")
 
 [node name="DashTimer" type="Timer" parent="."]
@@ -487,9 +535,16 @@ one_shot = true
 one_shot = true
 
 [node name="baby_sprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_wmold")
 position = Vector2(-20, 4)
 sprite_frames = SubResource("SpriteFrames_uuup3")
 frame_progress = 0.89062
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../baby_sprite")
+libraries = {
+"": SubResource("AnimationLibrary_30lba")
+}
 
 [node name="female_sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(2, 4)
@@ -504,19 +559,27 @@ animation = &"dash"
 position = Vector2(-76.9231, 69.2307)
 rotation = 1.58301
 shape = SubResource("CapsuleShape2D_4tl2h")
+disabled = true
 
 [node name="baby_collision" type="CollisionShape2D" parent="."]
-scale = Vector2(7.69231, 7.69231)
+position = Vector2(-46.1539, 507.692)
+shape = SubResource("CircleShape2D_2cwcs")
+disabled = true
 
 [node name="female_collision" type="CollisionShape2D" parent="."]
+position = Vector2(-69.2308, 61.5385)
+rotation = 1.5708
 scale = Vector2(7.69231, 7.69231)
+shape = SubResource("CapsuleShape2D_cnr26")
+disabled = true
 
-[node name="collisions" type="Node" parent="."]
+[node name="IFramesTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="timeout" from="Echo" to="." method="_on_echo_timeout"]
-[connection signal="no_health" from="PlayerStats" to="." method="_on_player_stats_no_health"]
 [connection signal="body_entered" from="HurtBox" to="." method="_on_hurt_box_body_entered"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="ParryTimer" to="." method="_on_parry_timer_timeout"]
 [connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]
 [connection signal="timeout" from="ParryCooldown" to="." method="_on_parry_cooldown_timeout"]
+[connection signal="timeout" from="IFramesTimer" to="." method="_on_i_frames_timer_timeout"]

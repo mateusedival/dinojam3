@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://crci850uhdqas"]
+
+[ext_resource type="Script" path="res://Menu/menu.gd" id="1_73lyo"]
+[ext_resource type="Texture2D" uid="uid://r2uboh2h720p" path="res://assets/UI/logo.png" id="1_ye7wg"]
+[ext_resource type="Texture2D" uid="uid://dgbgn6v4cxv4j" path="res://assets/UI/logo2.png" id="2_5vnrg"]
+[ext_resource type="Texture2D" uid="uid://b0w4vtp2mppl3" path="res://assets/UI/play.png" id="2_h0hvt"]
+[ext_resource type="PackedScene" uid="uid://dbeglxphj6xji" path="res://Background/bg1.tscn" id="4_cq3q4"]
+
+[node name="Menu" type="CanvasLayer"]
+script = ExtResource("1_73lyo")
+next_scene = "res://Level/level_config.tscn"
+
+[node name="Node2D" parent="." instance=ExtResource("4_cq3q4")]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+layout_mode = 2
+offset_left = 333.0
+offset_top = -170.0
+offset_right = 3844.0
+offset_bottom = 3341.0
+scale = Vector2(0.2143, 0.226319)
+texture = ExtResource("1_ye7wg")
+expand_mode = 4
+stretch_mode = 6
+
+[node name="TextureRect2" type="TextureRect" parent="Control"]
+layout_mode = 2
+offset_left = 190.0
+offset_top = -198.0
+offset_right = 4299.04
+offset_bottom = 3313.0
+scale = Vector2(0.253993, 0.163808)
+texture = ExtResource("2_5vnrg")
+expand_mode = 3
+stretch_mode = 6
+flip_h = true
+
+[node name="TextureRect3" type="TextureRect" parent="Control"]
+layout_mode = 2
+offset_left = -8.0
+offset_top = -135.0
+offset_right = 3503.0
+offset_bottom = 2865.0
+scale = Vector2(0.39485, 0.328041)
+texture = ExtResource("2_h0hvt")
+expand_mode = 2
+stretch_mode = 6

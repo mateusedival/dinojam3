@@ -1,9 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://qh5eajm4d8kn"]
+[gd_scene load_steps=4 format=3 uid="uid://qh5eajm4d8kn"]
 
 [ext_resource type="Script" path="res://Stars/star_spawner.gd" id="1_j2iqq"]
+[ext_resource type="PackedScene" uid="uid://dv2dtla8o58ma" path="res://Stars/stars.tscn" id="2_ngwub"]
+[ext_resource type="PackedScene" uid="uid://ch8xh7c703kcq" path="res://Indicators/indicators.tscn" id="3_e5ys8"]
 
 [node name="StarSpawner" type="Node2D"]
 script = ExtResource("1_j2iqq")
+Star = ExtResource("2_ngwub")
+Indicator = ExtResource("3_e5ys8")
 
 [node name="Timer" type="Timer" parent="."]
 

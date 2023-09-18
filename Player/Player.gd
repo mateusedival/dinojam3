@@ -14,19 +14,36 @@ extends CharacterBody2D
 @export var PARRY_TIMER: float = 0.1
 @export var PARRY_COOLDOWN: float = 0.5
 
+@export var HEALTH: int = 5
+
 @onready var STATE: States = States.MOVE
 
 enum States {MOVE,DASH,PARRY}
 
-var is_dashing = false
-var is_parrying = false
+@export var is_dashing = false
+@export var is_parrying = false
 
 var dash_direction: Vector2 = Vector2.ZERO
 
 
 func _ready():
 	$DamageBox/CollisionShape2D.disabled = true
+	$mom_collision.disabled = true
+	$baby_collision.disabled = true
+	$female_collision.disabled = true
+	PlayerStats.max_health = HEALTH
+	PlayerStats.connect('no_health',fucking_dies)
+	set_collision(SPRITE)
+	
 
+func set_collision(player_type):
+	match player_type:
+		"baby":
+			$baby_collision.disabled = false
+		"mom":
+			$mom_collision.disabled = false
+		"female":
+			$female_collision.disabled = false
 func _physics_process(delta):
 	var direction = Vector2.ZERO
 	
@@ -154,9 +171,10 @@ func _on_player_stats_no_health():
 
 
 func _on_hurt_box_body_entered(body):
-	$PlayerStats.health -= 1
+	PlayerStats.health -= 1
 	$HurtBox.start_invincibility(IFRAMES)
-	print($PlayerStats.health)
+	$AnimationPlayer.play("blink")
+	$IFramesTimer.start(IFRAMES)
 
 
 func _on_parry_timer_timeout():
@@ -171,3 +189,7 @@ func _on_parry_cooldown_timeout():
 
 func _on_dash_cooldown_timeout():
 	is_dashing = false
+
+
+func _on_i_frames_timer_timeout():
+	$AnimationPlayer.play("RESET")

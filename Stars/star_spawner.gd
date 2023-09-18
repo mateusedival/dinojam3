@@ -6,7 +6,7 @@ extends Node2D
 
 @export var spawn_rate: float = 3.0
 
-@export var length: int = 500.0
+@export var length: int = 500
 
 
 @export var jump_variation: float = 200.0
@@ -29,20 +29,19 @@ func spawn_indicator():
 	# TODO: remove magic number
 	var x = randi_range(global_position.x - length, global_position.x -20)
 	
-	indicator.global_position = Vector2(x,global_position.y - 60)
+	
 	
 	indicator.connect('spawn_ready',spawn_star)
 	
 	
-	get_tree().root.add_child(indicator)
-	
-	pass
+	add_child(indicator)
+	indicator.global_position = Vector2(x,global_position.y - 60)
 	
 func spawn_star(x: int):
 	var star = Star.instantiate()
 	
 
-	star.global_position = Vector2(global_position.x ,global_position.y - 50)
+	
 	
 	var speed = randf_range(-speed_variation, 0)
 	var jump = randf_range(-jump_variation,jump_variation)
@@ -51,7 +50,8 @@ func spawn_star(x: int):
 	
 	var tween = create_tween()
 	
-	get_tree().root.add_child(star)
+	add_child(star)
+	star.global_position = Vector2(global_position.x ,global_position.y - 50)
 	
 	tween.tween_property(star, "global_position", Vector2(x,star.global_position.y), 2).set_trans(Tween.TRANS_QUAD)
 

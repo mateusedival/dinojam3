@@ -19,7 +19,7 @@ func create_echo(echo_texture: Texture, pos: Vector2, echo_scale: Vector2 = Vect
 	echo.global_position = pos
 	echo.scale = echo_scale
 	var tween = create_tween()
-	get_tree().root.add_child(echo)
+	add_child(echo)
 	
 	tween.tween_property(echo,'modulate',Color(1,1,1,0),fade_out)
 	tween.connect('finished',echo.queue_free)
